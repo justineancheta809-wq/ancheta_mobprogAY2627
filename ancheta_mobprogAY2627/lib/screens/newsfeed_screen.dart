@@ -10,17 +10,20 @@ class NewsFeedScreen extends StatelessWidget {
     return ListView(
       children: const [
         NewsFeedCard(
-          userName: 'Cyrus Robles',
+          userName: 'Justine Ancheta',
           postContent: 'Kamusta',
           numOfLikes: 100,
           date: 'October 11',
+          avatarUrl: 'assets/images/mane.png',
         ),
         NewsFeedCard(
-          userName: 'Roben Juanatas',
-          postContent: 'Kicking off the holiday season with ICpEP-NCR!',
+          userName: 'Justine Ancheta',
+          postContent: 'Kicking off the holiday season!',
           numOfLikes: 200,
           date: 'December 2',
           hasImage: true,
+          avatarUrl: 'assets/images/mane.png',
+          imageUrl: 'assets/images/jm.jpeg',
         ),
       ],
     );
