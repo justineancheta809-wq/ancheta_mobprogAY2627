@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants.dart';
 import 'custom_text.dart';
+import 'user_avatar.dart';
+import 'post_action_button.dart';
 
 class NewsFeedCard extends StatelessWidget {
   final String userName;
@@ -10,6 +12,8 @@ class NewsFeedCard extends StatelessWidget {
   final String date;
   final int numOfLikes;
   final bool hasImage;
+  final String? imageUrl;
+  final String? avatarUrl;
 
   const NewsFeedCard({
     super.key,
@@ -17,6 +21,8 @@ class NewsFeedCard extends StatelessWidget {
     required this.postContent,
     this.numOfLikes = 0,
     this.hasImage = false,
+    this.imageUrl,
+    this.avatarUrl,
     required this.date,
   });
 
@@ -32,7 +38,10 @@ class NewsFeedCard extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Icon(Icons.person),
+                UserAvatar(
+                  imageUrl: avatarUrl,
+                  radius: ScreenUtil().setSp(16),
+                ),
                 SizedBox(
                   width: ScreenUtil().setWidth(10),
                 ),
@@ -79,7 +88,26 @@ class NewsFeedCard extends StatelessWidget {
             ),
             SizedBox(height: ScreenUtil().setHeight(5)),
             hasImage == true
-                ? const Placeholder()
+                ? (imageUrl != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(
+                          ScreenUtil().setSp(10),
+                        ),
+                        child: Image.asset(
+                          imageUrl!,
+                          width: double.infinity,
+                          height: ScreenUtil().setHeight(200),
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return SizedBox(
+                              width: double.infinity,
+                              height: ScreenUtil().setHeight(200),
+                              child: const Placeholder(),
+                            );
+                          },
+                        ),
+                      )
+                    : const Placeholder())
                 : SizedBox(
                     height: ScreenUtil().setHeight(1),
                   ),
@@ -127,9 +155,27 @@ class NewsFeedCard extends StatelessWidget {
                 ),
               ],
             ),
+            // Widget-based action buttons
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                LikeButton(),
+                PostActionButton(
+                  icon: Icons.chat_bubble_outline,
+                  label: 'Comment',
+                ),
+                PostActionButton(
+                  icon: Icons.share_outlined,
+                  label: 'Share',
+                ),
+              ],
+            ),
             Row(
               children: [
-                Icon(Icons.person),
+                UserAvatar(
+                  imageUrl: avatarUrl,
+                  radius: ScreenUtil().setSp(12),
+                ),
                 SizedBox(
                   width: ScreenUtil().setWidth(10),
                 ),
