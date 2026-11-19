@@ -1,7 +1,5 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../constants.dart';
 import 'custom_text.dart';
 import 'user_avatar.dart';
 import 'post_action_button.dart';
@@ -112,63 +110,39 @@ class NewsFeedCard extends StatelessWidget {
                     height: ScreenUtil().setHeight(1),
                   ),
             SizedBox(height: ScreenUtil().setHeight(5)),
+            // Widget-based Like / Comment / Share buttons
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                TextButton.icon(
-                  onPressed: () {
-                    print('Liked');
-                  },
-                  icon: const Icon(
-                    Icons.thumb_up,
-                    color: FB_DARK_PRIMARY,
-                  ),
-                  label: CustomText(
-                    text: numOfLikes.toString(),
-                    fontSize: ScreenUtil().setSp(12),
-                    color: FB_DARK_PRIMARY,
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.comment,
-                    color: FB_DARK_PRIMARY,
-                  ),
-                  label: CustomText(
-                    text: 'Comment',
-                    fontSize: ScreenUtil().setSp(12),
-                    color: FB_DARK_PRIMARY,
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Icons.redo,
-                    color: FB_DARK_PRIMARY,
-                  ),
-                  label: CustomText(
-                    text: 'Share',
-                    fontSize: ScreenUtil().setSp(12),
-                    color: FB_DARK_PRIMARY,
-                  ),
-                ),
-              ],
-            ),
-            // Widget-based action buttons
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const [
-                LikeButton(),
-                PostActionButton(
-                  icon: Icons.chat_bubble_outline,
+                LikeButton(numOfLikes: numOfLikes),
+                const PostActionButton(
+                  icon: Icons.comment,
                   label: 'Comment',
                 ),
-                PostActionButton(
-                  icon: Icons.share_outlined,
+                const PostActionButton(
+                  icon: Icons.redo,
                   label: 'Share',
                 ),
               ],
+            ),
+            const Divider(),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  CustomText(
+                    text: 'Most relevant',
+                    fontSize: ScreenUtil().setSp(12),
+                    color: Colors.grey,
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.grey,
+                    size: ScreenUtil().setSp(18),
+                  ),
+                ],
+              ),
             ),
             Row(
               children: [
@@ -179,26 +153,39 @@ class NewsFeedCard extends StatelessWidget {
                 SizedBox(
                   width: ScreenUtil().setWidth(10),
                 ),
-                Container(
-                  padding: EdgeInsets.fromLTRB(
-                    ScreenUtil().setSp(10),
-                    0,
-                    0,
-                    0,
-                  ),
-                  alignment: Alignment.centerLeft,
-                  height: ScreenUtil().setHeight(25),
-                  width: ScreenUtil().setWidth(330),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[200],
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(ScreenUtil().setSp(10)),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: ScreenUtil().setSp(10),
                     ),
-                  ),
-                  child: CustomText(
-                    text: 'Write a comment...',
-                    fontSize: ScreenUtil().setSp(11),
-                    color: Colors.grey,
+                    height: ScreenUtil().setHeight(25),
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(ScreenUtil().setSp(10)),
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        CustomText(
+                          text: 'Write a comment...',
+                          fontSize: ScreenUtil().setSp(11),
+                          color: Colors.grey,
+                        ),
+                        const Spacer(),
+                        Icon(Icons.gif_box_outlined,
+                            color: Colors.grey, size: ScreenUtil().setSp(14)),
+                        SizedBox(width: ScreenUtil().setWidth(5)),
+                        Icon(Icons.emoji_emotions_outlined,
+                            color: Colors.grey, size: ScreenUtil().setSp(14)),
+                        SizedBox(width: ScreenUtil().setWidth(5)),
+                        Icon(Icons.photo_camera_outlined,
+                            color: Colors.grey, size: ScreenUtil().setSp(14)),
+                        SizedBox(width: ScreenUtil().setWidth(5)),
+                        Icon(Icons.sticky_note_2_outlined,
+                            color: Colors.grey, size: ScreenUtil().setSp(14)),
+                      ],
+                    ),
                   ),
                 ),
               ],

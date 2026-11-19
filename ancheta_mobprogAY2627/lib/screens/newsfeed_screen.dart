@@ -18,12 +18,12 @@ class NewsFeedScreen extends StatelessWidget {
         ),
         NewsFeedCard(
           userName: 'Justine Ancheta',
-          postContent: 'Kicking off the holiday season!',
+          postContent: 'My good owl!',
           numOfLikes: 200,
           date: 'December 2',
           hasImage: true,
           avatarUrl: 'assets/images/mane.png',
-          imageUrl: 'assets/images/jm.jpeg',
+         imageUrl: 'assets/images/owl.jpeg',
         ),
       ],
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../constants.dart';
 
 /// Reusable widget-based action button (Comment, Share, ...).
 class PostActionButton extends StatelessWidget {
@@ -7,7 +8,7 @@ class PostActionButton extends StatelessWidget {
     super.key,
     required this.icon,
     required this.label,
-    this.color = Colors.grey,
+    this.color = FB_DARK_PRIMARY,
     this.onPressed,
   });
 
@@ -29,9 +30,11 @@ class PostActionButton extends StatelessWidget {
   }
 }
 
-/// Like button widget that toggles between outlined and filled.
+/// Like button widget: shows the number of likes and toggles when pressed.
 class LikeButton extends StatefulWidget {
-  const LikeButton({super.key});
+  const LikeButton({super.key, this.numOfLikes = 0});
+
+  final int numOfLikes;
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
@@ -43,9 +46,9 @@ class _LikeButtonState extends State<LikeButton> {
   @override
   Widget build(BuildContext context) {
     return PostActionButton(
-      icon: isLiked ? Icons.thumb_up : Icons.thumb_up_outlined,
-      label: 'Like',
-      color: isLiked ? Colors.blue : Colors.grey,
+      icon: Icons.thumb_up,
+      label: (widget.numOfLikes + (isLiked ? 1 : 0)).toString(),
+      color: isLiked ? FB_PRIMARY : FB_DARK_PRIMARY,
       onPressed: () {
         setState(() {
           isLiked = !isLiked;
