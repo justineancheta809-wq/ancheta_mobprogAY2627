@@ -9,6 +9,8 @@ class NewsFeedCard extends StatelessWidget {
   final String postContent;
   final String date;
   final int numOfLikes;
+  final int numOfComments;
+  final int numOfShares;
   final bool hasImage;
   final String? imageUrl;
   final String? avatarUrl;
@@ -18,6 +20,8 @@ class NewsFeedCard extends StatelessWidget {
     required this.userName,
     required this.postContent,
     this.numOfLikes = 0,
+    this.numOfComments = 0,
+    this.numOfShares = 0,
     this.hasImage = false,
     this.imageUrl,
     this.avatarUrl,
@@ -73,12 +77,11 @@ class NewsFeedCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Spacer(),
-                Icon(Icons.more_horiz),
+                const Spacer(),
+                const Icon(Icons.more_horiz),
               ],
             ),
             SizedBox(height: ScreenUtil().setHeight(5)),
-            // Post Content
             CustomText(
               text: postContent,
               fontSize: ScreenUtil().setSp(12),
@@ -96,6 +99,7 @@ class NewsFeedCard extends StatelessWidget {
                           width: double.infinity,
                           height: ScreenUtil().setHeight(200),
                           fit: BoxFit.cover,
+                          alignment: Alignment.topCenter,
                           errorBuilder: (context, error, stackTrace) {
                             return SizedBox(
                               width: double.infinity,
@@ -109,20 +113,49 @@ class NewsFeedCard extends StatelessWidget {
                 : SizedBox(
                     height: ScreenUtil().setHeight(1),
                   ),
-            SizedBox(height: ScreenUtil().setHeight(5)),
-            // Widget-based Like / Comment / Share buttons
+            SizedBox(height: ScreenUtil().setHeight(8)),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                LikeButton(numOfLikes: numOfLikes),
-                const PostActionButton(
-                  icon: Icons.comment,
-                  label: 'Comment',
+                Row(
+                  children: [
+                    Icon(
+                      Icons.thumb_up,
+                      size: ScreenUtil().setSp(13),
+                      color: Colors.blue,
+                    ),
+                    SizedBox(width: ScreenUtil().setWidth(4)),
+                    CustomText(
+                      text: '$numOfLikes',
+                      fontSize: ScreenUtil().setSp(12),
+                      color: Colors.grey[700]!,
+                    ),
+                  ],
                 ),
-                const PostActionButton(
-                  icon: Icons.redo,
-                  label: 'Share',
+                Row(
+                  children: [
+                    CustomText(
+                      text: '$numOfComments Comments',
+                      fontSize: ScreenUtil().setSp(12),
+                      color: Colors.grey[700]!,
+                    ),
+                    SizedBox(width: ScreenUtil().setWidth(8)),
+                    CustomText(
+                      text: '$numOfShares Shares',
+                      fontSize: ScreenUtil().setSp(12),
+                      color: Colors.grey[700]!,
+                    ),
+                  ],
                 ),
+              ],
+            ),
+            const Divider(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: const [
+                LikeButton(),
+                CommentButton(),
+                ShareButton(),
               ],
             ),
             const Divider(),

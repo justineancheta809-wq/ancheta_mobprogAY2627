@@ -1,40 +1,51 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import '../constants.dart';
 
-/// Reusable widget-based action button (Comment, Share, ...).
 class PostActionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback? onPressed;
+  final Color color;
+
   const PostActionButton({
     super.key,
     required this.icon,
     required this.label,
-    this.color = FB_DARK_PRIMARY,
     this.onPressed,
+    this.color = Colors.grey,
   });
-
-  final IconData icon;
-  final String label;
-  final Color color;
-  final VoidCallback? onPressed;
 
   @override
   Widget build(BuildContext context) {
-    return TextButton.icon(
-      onPressed: onPressed ?? () {},
-      icon: Icon(icon, color: color),
-      label: Text(
-        label,
-        style: TextStyle(fontSize: ScreenUtil().setSp(12), color: color),
+    return InkWell(
+      onTap: onPressed,
+      child: Padding(
+        padding: EdgeInsets.symmetric(vertical: ScreenUtil().setHeight(4)),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              icon,
+              size: ScreenUtil().setSp(16),
+              color: color,
+            ),
+            SizedBox(width: ScreenUtil().setWidth(4)),
+            Text(
+              label,
+              style: TextStyle(
+                fontSize: ScreenUtil().setSp(12),
+                color: color,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-/// Like button widget: shows the number of likes and toggles when pressed.
 class LikeButton extends StatefulWidget {
-  const LikeButton({super.key, this.numOfLikes = 0});
-
-  final int numOfLikes;
+  const LikeButton({super.key});
 
   @override
   State<LikeButton> createState() => _LikeButtonState();
@@ -45,15 +56,47 @@ class _LikeButtonState extends State<LikeButton> {
 
   @override
   Widget build(BuildContext context) {
+    final activeColor = isLiked ? Colors.blue : Colors.grey;
+
     return PostActionButton(
-      icon: Icons.thumb_up,
-      label: (widget.numOfLikes + (isLiked ? 1 : 0)).toString(),
-      color: isLiked ? FB_PRIMARY : FB_DARK_PRIMARY,
+      icon: isLiked ? Icons.thumb_up : Icons.thumb_up_alt_outlined,
+      label: 'Like',
+      color: activeColor,
       onPressed: () {
         setState(() {
           isLiked = !isLiked;
         });
       },
+    );
+  }
+}
+
+class CommentButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+
+  const CommentButton({super.key, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return PostActionButton(
+      icon: Icons.chat_bubble_outline,
+      label: 'Comment',
+      onPressed: onPressed,
+    );
+  }
+}
+
+class ShareButton extends StatelessWidget {
+  final VoidCallback? onPressed;
+
+  const ShareButton({super.key, this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return PostActionButton(
+      icon: Icons.redo,
+      label: 'Share',
+      onPressed: onPressed,
     );
   }
 }
